@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="homni-logo.jpeg" width="500" alt="Homni Logo">
+  <img src="homni-logo.jpeg" width="600" alt="Homni Logo">
 </p>
 
 <h3 align="center">Human + Omni</h3>
