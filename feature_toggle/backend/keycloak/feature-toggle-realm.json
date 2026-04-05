@@ -1,0 +1,172 @@
+{
+  "realm": "feature-toggle",
+  "enabled": true,
+  "sslRequired": "none",
+  "registrationAllowed": false,
+  "loginWithEmailAllowed": true,
+  "duplicateEmailsAllowed": false,
+  "resetPasswordAllowed": true,
+  "editUsernameAllowed": false,
+  "bruteForceProtected": true,
+  "loginTheme": "feature-toggle",
+  "clients": [
+    {
+      "clientId": "feature-toggle-frontend",
+      "name": "Feature Toggle Frontend",
+      "enabled": true,
+      "publicClient": true,
+      "attributes": {
+        "login_theme": "feature-toggle"
+      },
+      "directAccessGrantsEnabled": true,
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "protocol": "openid-connect",
+      "redirectUris": ["http://localhost:3000/*", "http://localhost:5173/*"],
+      "webOrigins": ["http://localhost:3000", "http://localhost:5173"],
+      "defaultClientScopes": ["openid", "email", "profile"],
+      "optionalClientScopes": []
+    },
+    {
+      "clientId": "backend",
+      "name": "Feature Toggle Backend",
+      "enabled": true,
+      "publicClient": false,
+      "secret": "3kd8M3f7aoZ2XOPPk5SWlZc4Lcax3Wes",
+      "directAccessGrantsEnabled": true,
+      "standardFlowEnabled": false,
+      "serviceAccountsEnabled": false,
+      "protocol": "openid-connect",
+      "redirectUris": [],
+      "webOrigins": [],
+      "defaultClientScopes": ["openid", "email", "profile"],
+      "optionalClientScopes": []
+    }
+  ],
+  "clientScopes": [
+    {
+      "name": "openid",
+      "protocol": "openid-connect",
+      "attributes": {
+        "include.in.token.scope": "true"
+      },
+      "protocolMappers": [
+        {
+          "name": "sub",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-sub-mapper",
+          "consentRequired": false,
+          "config": {
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "userinfo.token.claim": "true"
+          }
+        }
+      ]
+    },
+    {
+      "name": "email",
+      "protocol": "openid-connect",
+      "attributes": {
+        "include.in.token.scope": "true"
+      },
+      "protocolMappers": [
+        {
+          "name": "email",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "user.attribute": "email",
+            "claim.name": "email",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "userinfo.token.claim": "true",
+            "jsonType.label": "String"
+          }
+        }
+      ]
+    },
+    {
+      "name": "profile",
+      "protocol": "openid-connect",
+      "attributes": {
+        "include.in.token.scope": "true"
+      },
+      "protocolMappers": [
+        {
+          "name": "full-name",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-full-name-mapper",
+          "consentRequired": false,
+          "config": {
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "userinfo.token.claim": "true"
+          }
+        },
+        {
+          "name": "preferred_username",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "user.attribute": "username",
+            "claim.name": "preferred_username",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "userinfo.token.claim": "true",
+            "jsonType.label": "String"
+          }
+        }
+      ]
+    }
+  ],
+  "users": [
+    {
+      "username": "admin",
+      "email": "admin@homni.local",
+      "emailVerified": true,
+      "enabled": true,
+      "firstName": "Admin",
+      "lastName": "User",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "admin",
+          "temporary": false
+        }
+      ]
+    },
+    {
+      "username": "editor",
+      "email": "editor@homni.local",
+      "emailVerified": true,
+      "enabled": true,
+      "firstName": "Editor",
+      "lastName": "User",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "editor",
+          "temporary": false
+        }
+      ]
+    },
+    {
+      "username": "reader",
+      "email": "reader@homni.local",
+      "emailVerified": true,
+      "enabled": true,
+      "firstName": "Reader",
+      "lastName": "User",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "reader",
+          "temporary": false
+        }
+      ]
+    }
+  ]
+}

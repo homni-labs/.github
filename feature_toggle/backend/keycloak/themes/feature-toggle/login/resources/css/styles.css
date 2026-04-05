@@ -1,0 +1,601 @@
+/* ================================================================
+   Feature Toggle — Keycloak Login Theme
+   Matches the Flutter login page design exactly
+   ================================================================ */
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+    --coral:       #EF7B6C;
+    --coral-dark:  #E8585A;
+    --teal:        #4ABFBF;
+    --green:       #7BC67E;
+    --purple:      #BBA8D9;
+    --yellow:      #F5C842;
+    --cream:       #EAE7DC;
+    --navy:        #2D3047;
+    --bg-1:        #0D0D1A;
+    --bg-2:        #1A1A2E;
+    --bg-3:        #16213E;
+    --bg-4:        #0F3460;
+}
+
+html, body {
+    width: 100%; height: 100%;
+    font-family: 'Inter', system-ui, sans-serif;
+    color: #fff;
+    overflow-x: hidden;
+}
+
+/* ── Background ─────────────────────────────────────────────── */
+
+.bg {
+    position: fixed; inset: 0; z-index: 0;
+    overflow: hidden;
+}
+
+.bg-gradient {
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, var(--bg-1) 0%, var(--bg-2) 30%, var(--bg-3) 60%, var(--bg-4) 100%);
+}
+
+.vignette {
+    position: absolute; inset: 0;
+    background: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.3) 100%);
+    pointer-events: none;
+}
+
+/* ── Floating toggle switches (CSS-only) ────────────────────── */
+
+/* Mover: handles position + drift animation */
+.mover {
+    position: absolute;
+}
+.m1  { top: 8%;  left: 5%;  animation: drift1 12s linear infinite; }
+.m2  { top: 15%; left: 75%; animation: drift2 14s linear infinite; }
+.m3  { top: 35%; left: 12%; animation: drift3 16s linear infinite; }
+.m4  { top: 55%; left: 80%; animation: drift4 13s linear infinite; }
+.m5  { top: 70%; left: 25%; animation: drift5 15s linear infinite; }
+.m6  { top: 85%; left: 60%; animation: drift6 11s linear infinite; }
+.m7  { top: 25%; left: 50%; animation: drift7 17s linear infinite; }
+.m8  { top: 45%; left: 40%; animation: drift8 12s linear infinite; }
+.m9  { top: 65%; left: 8%;  animation: drift9 14s linear infinite; }
+.m10 { top: 10%; left: 35%; animation: drift10 13s linear infinite; }
+
+/* Toggle: handles appearance + ON/OFF switch animation */
+.toggle {
+    border-radius: 999px;
+    opacity: 0.20;
+    border: 1px solid rgba(255,255,255,0.10);
+    background: rgba(255,255,255,0.06);
+}
+.toggle span {
+    position: absolute;
+    top: 4px; left: 4px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.20);
+}
+
+/* Per-toggle: size, rotation, color, switch timing */
+.t1  { width: 100px; height: 48px; transform: rotate(-8deg);  animation: sw-coral 5s 0s ease-in-out infinite; }
+.t1  span { width: 40px; height: 40px; animation: th-100 5s 0s ease-in-out infinite; }
+.t2  { width: 120px; height: 58px; transform: rotate(12deg);  animation: sw-teal 7s 1s ease-in-out infinite; }
+.t2  span { width: 50px; height: 50px; animation: th-120 7s 1s ease-in-out infinite; }
+.t3  { width: 80px;  height: 38px; transform: rotate(5deg);   animation: sw-green 6s 2s ease-in-out infinite; }
+.t3  span { width: 30px; height: 30px; animation: th-80 6s 2s ease-in-out infinite; }
+.t4  { width: 110px; height: 53px; transform: rotate(-15deg); animation: sw-purple 5.5s 0.5s ease-in-out infinite; }
+.t4  span { width: 45px; height: 45px; animation: th-110 5.5s 0.5s ease-in-out infinite; }
+.t5  { width: 90px;  height: 43px; transform: rotate(10deg);  animation: sw-coral 6.5s 3s ease-in-out infinite; }
+.t5  span { width: 35px; height: 35px; animation: th-90 6.5s 3s ease-in-out infinite; }
+.t6  { width: 130px; height: 62px; transform: rotate(-5deg);  animation: sw-teal 7.5s 1.5s ease-in-out infinite; }
+.t6  span { width: 54px; height: 54px; animation: th-130 7.5s 1.5s ease-in-out infinite; }
+.t7  { width: 95px;  height: 46px; transform: rotate(18deg);  animation: sw-yellow 5s 2.5s ease-in-out infinite; }
+.t7  span { width: 38px; height: 38px; animation: th-95 5s 2.5s ease-in-out infinite; }
+.t8  { width: 105px; height: 50px; transform: rotate(-12deg); animation: sw-green 6s 0.8s ease-in-out infinite; }
+.t8  span { width: 42px; height: 42px; animation: th-105 6s 0.8s ease-in-out infinite; }
+.t9  { width: 85px;  height: 41px; transform: rotate(7deg);   animation: sw-purple 7s 3.5s ease-in-out infinite; }
+.t9  span { width: 33px; height: 33px; animation: th-85 7s 3.5s ease-in-out infinite; }
+.t10 { width: 115px; height: 55px; transform: rotate(-20deg); animation: sw-coral 5.5s 4s ease-in-out infinite; }
+.t10 span { width: 47px; height: 47px; animation: th-115 5.5s 4s ease-in-out infinite; }
+
+/* ── Drift keyframes (unique per mover for varied paths) ─────── */
+
+@keyframes drift1 {
+    0%   { transform: translate(0,0); }
+    25%  { transform: translate(120px,-80px); }
+    50%  { transform: translate(-60px,100px); }
+    75%  { transform: translate(90px,60px); }
+    100% { transform: translate(0,0); }
+}
+@keyframes drift2 {
+    0%   { transform: translate(0,0); }
+    25%  { transform: translate(-100px,70px); }
+    50%  { transform: translate(80px,-90px); }
+    75%  { transform: translate(-70px,-60px); }
+    100% { transform: translate(0,0); }
+}
+@keyframes drift3 {
+    0%   { transform: translate(0,0); }
+    25%  { transform: translate(80px,110px); }
+    50%  { transform: translate(-100px,-50px); }
+    75%  { transform: translate(60px,-80px); }
+    100% { transform: translate(0,0); }
+}
+@keyframes drift4 {
+    0%   { transform: translate(0,0); }
+    25%  { transform: translate(-110px,-70px); }
+    50%  { transform: translate(70px,90px); }
+    75%  { transform: translate(-50px,80px); }
+    100% { transform: translate(0,0); }
+}
+@keyframes drift5 {
+    0%   { transform: translate(0,0); }
+    25%  { transform: translate(100px,60px); }
+    50%  { transform: translate(-80px,-80px); }
+    75%  { transform: translate(110px,-50px); }
+    100% { transform: translate(0,0); }
+}
+@keyframes drift6 {
+    0%   { transform: translate(0,0); }
+    25%  { transform: translate(-70px,120px); }
+    50%  { transform: translate(90px,-70px); }
+    75%  { transform: translate(-100px,40px); }
+    100% { transform: translate(0,0); }
+}
+@keyframes drift7 {
+    0%   { transform: translate(0,0); }
+    25%  { transform: translate(90px,-100px); }
+    50%  { transform: translate(-60px,80px); }
+    75%  { transform: translate(70px,70px); }
+    100% { transform: translate(0,0); }
+}
+@keyframes drift8 {
+    0%   { transform: translate(0,0); }
+    25%  { transform: translate(-90px,90px); }
+    50%  { transform: translate(80px,-100px); }
+    75%  { transform: translate(-70px,-60px); }
+    100% { transform: translate(0,0); }
+}
+@keyframes drift9 {
+    0%   { transform: translate(0,0); }
+    25%  { transform: translate(70px,80px); }
+    50%  { transform: translate(-100px,-50px); }
+    75%  { transform: translate(90px,-70px); }
+    100% { transform: translate(0,0); }
+}
+@keyframes drift10 {
+    0%   { transform: translate(0,0); }
+    25%  { transform: translate(-80px,-90px); }
+    50%  { transform: translate(100px,60px); }
+    75%  { transform: translate(-50px,100px); }
+    100% { transform: translate(0,0); }
+}
+
+/* ── Switch track: border+bg OFF → colored ON → OFF ──────────── */
+
+@keyframes sw-coral {
+    0%,15%  { border-color: rgba(255,255,255,0.10); background: rgba(255,255,255,0.06); }
+    35%,65% { border-color: rgba(239,123,108,0.35); background: rgba(239,123,108,0.20); }
+    85%,100%{ border-color: rgba(255,255,255,0.10); background: rgba(255,255,255,0.06); }
+}
+@keyframes sw-teal {
+    0%,15%  { border-color: rgba(255,255,255,0.10); background: rgba(255,255,255,0.06); }
+    35%,65% { border-color: rgba(74,191,191,0.35);  background: rgba(74,191,191,0.20); }
+    85%,100%{ border-color: rgba(255,255,255,0.10); background: rgba(255,255,255,0.06); }
+}
+@keyframes sw-green {
+    0%,15%  { border-color: rgba(255,255,255,0.10); background: rgba(255,255,255,0.06); }
+    35%,65% { border-color: rgba(123,198,126,0.35); background: rgba(123,198,126,0.20); }
+    85%,100%{ border-color: rgba(255,255,255,0.10); background: rgba(255,255,255,0.06); }
+}
+@keyframes sw-purple {
+    0%,15%  { border-color: rgba(255,255,255,0.10); background: rgba(255,255,255,0.06); }
+    35%,65% { border-color: rgba(187,168,217,0.35); background: rgba(187,168,217,0.20); }
+    85%,100%{ border-color: rgba(255,255,255,0.10); background: rgba(255,255,255,0.06); }
+}
+@keyframes sw-yellow {
+    0%,15%  { border-color: rgba(255,255,255,0.10); background: rgba(255,255,255,0.06); }
+    35%,65% { border-color: rgba(245,200,66,0.35);  background: rgba(245,200,66,0.20); }
+    85%,100%{ border-color: rgba(255,255,255,0.10); background: rgba(255,255,255,0.06); }
+}
+
+/* ── Thumb slide: left ↔ right + color change (per width) ──── */
+
+@keyframes th-80 {
+    0%,15%  { left:4px;  background:rgba(255,255,255,0.20); }
+    35%,65% { left:46px; background:rgba(123,198,126,0.60); }
+    85%,100%{ left:4px;  background:rgba(255,255,255,0.20); }
+}
+@keyframes th-85 {
+    0%,15%  { left:4px;  background:rgba(255,255,255,0.20); }
+    35%,65% { left:48px; background:rgba(187,168,217,0.60); }
+    85%,100%{ left:4px;  background:rgba(255,255,255,0.20); }
+}
+@keyframes th-90 {
+    0%,15%  { left:4px;  background:rgba(255,255,255,0.20); }
+    35%,65% { left:51px; background:rgba(239,123,108,0.60); }
+    85%,100%{ left:4px;  background:rgba(255,255,255,0.20); }
+}
+@keyframes th-95 {
+    0%,15%  { left:4px;  background:rgba(255,255,255,0.20); }
+    35%,65% { left:53px; background:rgba(245,200,66,0.60); }
+    85%,100%{ left:4px;  background:rgba(255,255,255,0.20); }
+}
+@keyframes th-100 {
+    0%,15%  { left:4px;  background:rgba(255,255,255,0.20); }
+    35%,65% { left:56px; background:rgba(239,123,108,0.60); }
+    85%,100%{ left:4px;  background:rgba(255,255,255,0.20); }
+}
+@keyframes th-105 {
+    0%,15%  { left:4px;  background:rgba(255,255,255,0.20); }
+    35%,65% { left:59px; background:rgba(123,198,126,0.60); }
+    85%,100%{ left:4px;  background:rgba(255,255,255,0.20); }
+}
+@keyframes th-110 {
+    0%,15%  { left:4px;  background:rgba(255,255,255,0.20); }
+    35%,65% { left:61px; background:rgba(187,168,217,0.60); }
+    85%,100%{ left:4px;  background:rgba(255,255,255,0.20); }
+}
+@keyframes th-115 {
+    0%,15%  { left:4px;  background:rgba(255,255,255,0.20); }
+    35%,65% { left:64px; background:rgba(239,123,108,0.60); }
+    85%,100%{ left:4px;  background:rgba(255,255,255,0.20); }
+}
+@keyframes th-120 {
+    0%,15%  { left:4px;  background:rgba(255,255,255,0.20); }
+    35%,65% { left:66px; background:rgba(74,191,191,0.60); }
+    85%,100%{ left:4px;  background:rgba(255,255,255,0.20); }
+}
+@keyframes th-130 {
+    0%,15%  { left:4px;  background:rgba(255,255,255,0.20); }
+    35%,65% { left:72px; background:rgba(74,191,191,0.60); }
+    85%,100%{ left:4px;  background:rgba(255,255,255,0.20); }
+}
+
+/* ── Main layout ────────────────────────────────────────────── */
+
+.main {
+    position: relative; z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 32px 24px;
+}
+
+.layout {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 60px;
+    max-width: 1000px;
+    width: 100%;
+}
+
+.branding {
+    flex: 5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.card {
+    flex: 4;
+    min-width: 0;
+}
+
+/* ── Logo ───────────────────────────────────────────────────── */
+
+.logo-wrap {
+    position: relative;
+    width: 250px; height: 250px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+}
+
+.logo-circle {
+    width: 250px; height: 250px;
+    border-radius: 50%;
+    background: var(--cream);
+    overflow: hidden;
+    box-shadow:
+        0 0 30px rgba(239,123,108,0.5),
+        0 0 60px rgba(239,123,108,0.3),
+        0 0 90px rgba(74,191,191,0.25),
+        0 8px 20px rgba(0,0,0,0.3);
+    animation: pulse-logo 2.5s ease-in-out infinite alternate;
+}
+
+.logo-img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+}
+
+@keyframes pulse-logo {
+    0% {
+        transform: scale(1);
+        box-shadow:
+            0 0 20px rgba(239,123,108,0.4),
+            0 0 40px rgba(239,123,108,0.2),
+            0 0 60px rgba(74,191,191,0.15),
+            0 8px 20px rgba(0,0,0,0.3);
+    }
+    100% {
+        transform: scale(1.05);
+        box-shadow:
+            0 0 40px rgba(239,123,108,0.6),
+            0 0 80px rgba(239,123,108,0.35),
+            0 0 120px rgba(74,191,191,0.3),
+            0 8px 20px rgba(0,0,0,0.3);
+    }
+}
+
+@keyframes pulse-scale {
+    0%   { transform: scale(1); }
+    100% { transform: scale(1.04); }
+}
+
+/* ── Brand text ─────────────────────────────────────────────── */
+
+.brand-title {
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    text-shadow: 0 0 16px rgba(239,123,108,0.3);
+    margin-bottom: 8px;
+}
+
+.brand-subtitle {
+    font-size: 15px;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 0.3px;
+}
+
+/* ── Glassmorphism card ─────────────────────────────────────── */
+
+.card {
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    background: rgba(255,255,255,0.12);
+    border: 1.5px solid rgba(255,255,255,0.18);
+    border-radius: 24px;
+    padding: 28px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.card-title {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.card-subtitle {
+    font-size: 14px;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 28px;
+}
+
+/* ── Alert / error ──────────────────────────────────────────── */
+
+.alert {
+    padding: 12px 16px;
+    border-radius: 12px;
+    font-size: 13px;
+    margin-bottom: 20px;
+}
+.alert-error {
+    background: rgba(232,88,90,0.15);
+    border: 1px solid rgba(232,88,90,0.3);
+    color: #f4a393;
+}
+.alert-success {
+    background: rgba(123,198,126,0.15);
+    border: 1px solid rgba(123,198,126,0.3);
+    color: #9FD8A1;
+}
+.alert-warning {
+    background: rgba(245,200,66,0.15);
+    border: 1px solid rgba(245,200,66,0.3);
+    color: #F8D76B;
+}
+.alert-info {
+    background: rgba(74,191,191,0.15);
+    border: 1px solid rgba(74,191,191,0.3);
+    color: #4ABFBF;
+}
+
+/* ── Form fields ────────────────────────────────────────────── */
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.field {
+    position: relative;
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,0.15);
+    background: rgba(255,255,255,0.07);
+    transition: all 0.2s ease;
+}
+
+.field:focus-within {
+    border-color: rgba(239,123,108,0.6);
+    background: rgba(255,255,255,0.12);
+    box-shadow: 0 0 12px rgba(239,123,108,0.1);
+}
+
+.field-icon {
+    position: absolute;
+    left: 16px; top: 50%;
+    transform: translateY(-50%);
+    width: 20px; height: 20px;
+    color: rgba(255,255,255,0.5);
+    pointer-events: none;
+    transition: color 0.2s;
+}
+
+.field:focus-within .field-icon {
+    color: var(--coral);
+}
+
+.field input {
+    width: 100%;
+    padding: 16px 16px 16px 48px;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    color: #fff;
+    letter-spacing: 0.3px;
+}
+
+.field input::placeholder {
+    color: rgba(255,255,255,0.4);
+}
+
+/* ── Submit button ──────────────────────────────────────────── */
+
+.btn-login {
+    position: relative;
+    width: 100%;
+    height: 56px;
+    margin-top: 12px;
+    border: none;
+    border-radius: 16px;
+    background: linear-gradient(90deg, var(--coral), var(--coral-dark), var(--coral));
+    box-shadow: 0 6px 16px -2px rgba(239,123,108,0.4);
+    cursor: pointer;
+    overflow: hidden;
+    transition: transform 0.1s, box-shadow 0.2s;
+}
+
+.btn-login:active {
+    transform: scale(0.96);
+}
+
+.btn-login:hover {
+    box-shadow: 0 8px 24px -2px rgba(239,123,108,0.5);
+}
+
+.btn-text {
+    position: relative; z-index: 1;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+    color: #fff;
+}
+
+.btn-shimmer {
+    position: absolute; inset: 0;
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(255,255,255,0.15) 50%,
+        transparent 100%
+    );
+    transform: translateX(-100%);
+    animation: shimmer 2s linear infinite;
+}
+
+@keyframes shimmer {
+    0%   { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+/* ── Social / divider ───────────────────────────────────────── */
+
+.divider {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 20px 0;
+}
+.divider::before, .divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(255,255,255,0.12);
+}
+.divider span {
+    font-size: 12px;
+    color: rgba(255,255,255,0.4);
+    white-space: nowrap;
+}
+
+.social-providers {
+    display: flex;
+    gap: 12px;
+}
+
+.social-btn {
+    flex: 1;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: rgba(255,255,255,0.7);
+    font-size: 13px;
+    font-family: 'Inter', sans-serif;
+    text-decoration: none;
+    transition: background 0.2s;
+}
+
+.social-btn:hover {
+    background: rgba(255,255,255,0.12);
+}
+
+/* ── Responsive ─────────────────────────────────────────────── */
+
+@media (max-width: 800px) {
+    .layout {
+        flex-direction: column;
+        max-width: 420px;
+        gap: 36px;
+    }
+
+    .branding { flex: none; }
+    .card { flex: none; width: 100%; }
+
+    .logo-wrap  { width: 200px; height: 200px; }
+    .logo-circle { width: 160px; height: 160px; }
+
+    .brand-title { font-size: 26px; }
+}
+
+@media (min-width: 1200px) {
+    .main {
+        padding-left: 10vw;
+        padding-right: 10vw;
+    }
+}
+
+/* ── Entrance animations ────────────────────────────────────── */
+
+.branding {
+    animation: fadeSlideUp 0.6s ease-out both;
+}
+
+.card {
+    animation: fadeSlideUp 0.6s 0.2s ease-out both;
+}
+
+@keyframes fadeSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

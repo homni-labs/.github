@@ -1,0 +1,26 @@
+spring:
+  application:
+    name: homni-feature-toggle-backend
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:homni_feature_toggle}
+    username: ${DB_USER:homni}
+    password: ${DB_PASSWORD:homni}
+  liquibase:
+    change-log: classpath:db/changelog/changelog-master.xml
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${OIDC_ISSUER_URI:http://localhost:8180/realms/feature-toggle}
+
+app:
+  oidc:
+    default-admin-email: ${OIDC_ADMIN_EMAIL:admin@homni.local}
+
+springdoc:
+  swagger-ui:
+    path: /docs
+
+logging:
+  level:
+    com.homni: ${LOG_LEVEL:DEBUG}
