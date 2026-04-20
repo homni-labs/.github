@@ -22,5 +22,5 @@ Community-driven projects built as part of Homni and shared openly for developer
 
 | Project | Description |
 |---------|-------------|
-| [togli](https://github.com/homni-labs/togli) | Feature toggle platform |
+| [togli](https://github.com/homni-labs/togli) | Feature toggle platform (Java, Flutter) |
 | [authgate-sdk-java](https://github.com/homni-app/authgate-sdk-java) | OAuth 2.1 SDK for pure Java |
